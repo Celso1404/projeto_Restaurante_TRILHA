@@ -18,25 +18,33 @@ router.get('/', function(req, res, next) {
 
 router.get('/contacts', function(req, res, next) {
   res.render('contacts', {
-    title: 'Contato - Restaurante Saboroso!'
+    title: 'Contato - Restaurante Saboroso!',
+    background: 'images/img_bg_3.jpg',
+    h1: 'Diga um oi!'
   });
 });
 
 router.get('/menus', function(req, res, next) {
   res.render('contacts', {
-    title: 'Menus - Restaurante Saboroso!'
+    title: 'Menus - Restaurante Saboroso!',
+    background: 'images/img_bg_1.jpg',
+    h1: 'Saboreie nosso menu!'
   });
 });
 
 router.get('/reservations', function(req, res, next) {
   res.render('contacts', {
-    title: 'Reservas - Restaurante Saboroso!'
+    title: 'Reservas - Restaurante Saboroso!',
+    background: 'images/img_bg_2.jpg',
+    h1: 'Reserve uma Mesa!'
   });
 });
 
 router.get('/services', function(req, res, next) {
   res.render('contacts', {
-    title: 'Serviços - Restaurante Saboroso!'
+    title: 'Serviços - Restaurante Saboroso!',
+    background: 'images/img_bg_1.jpg',
+    h1: 'É um prazer poder servir!'
   });
 });
 
