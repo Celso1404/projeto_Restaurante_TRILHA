@@ -8,7 +8,8 @@ router.get('/', function(req, res, next) {
   menus.getMenus().then(results => {
       res.render('index', { 
         title: 'Restaurante Saboroso!',
-        menus: results
+        menus: results,
+        isHome: true 
       });
   });
 });
@@ -17,35 +18,38 @@ router.get('/contacts', function(req, res, next) {
   res.render('contacts', {
     title: 'Contato - Restaurante Saboroso!',
     background: 'images/img_bg_3.jpg',
-    h1: 'Diga um oi!'
+    h1: 'Diga um oi!',
+    isHome: false 
   });
 });
 
 router.get('/menus', function(req, res, next) {
   menus.getMenus().then(results => {
-    res.render('contacts', {
-    title: 'Menus - Restaurante Saboroso!',
-    background: 'images/img_bg_1.jpg',
-    h1: 'Saboreie nosso menu!'
+    res.render('menus', { 
+      title: 'Menus - Restaurante Saboroso!',
+      background: 'images/img_bg_1.jpg',
+      h1: 'Saboreie nosso menu!',
+      isHome: false 
     });
   })
 });
 
 router.get('/reservations', function(req, res, next) {
-  res.render('contacts', {
+  res.render('reservations', { 
     title: 'Reservas - Restaurante Saboroso!',
     background: 'images/img_bg_2.jpg',
-    h1: 'Reserve uma Mesa!'
+    h1: 'Reserve uma Mesa!',
+    isHome: false 
   });
 });
 
 router.get('/services', function(req, res, next) {
-  res.render('contacts', {
+  res.render('services', { // <-- Corrigido para renderizar 'services'
     title: 'Serviços - Restaurante Saboroso!',
     background: 'images/img_bg_1.jpg',
-    h1: 'É um prazer poder servir!'
+    h1: 'É um prazer poder servir!',
+    isHome: false 
   });
 });
-
 
 module.exports = router;
