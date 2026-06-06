@@ -52,13 +52,6 @@ router.get('/menus', function(req, res, next) {
 
 router.get('/reservations', function(req, res, next) {
   reservations.render(req, res);
-
-  res.render('reservations', { 
-    title: 'Reservas - Restaurante Saboroso!',
-    background: 'images/img_bg_2.jpg',
-    h1: 'Reserve uma Mesa!',
-    isHome: false 
-  });
 });
 
 router.post('/reservations', function(req, res, next) {
