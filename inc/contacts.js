@@ -6,7 +6,8 @@ module.exports = {
             title: 'Contato - Restaurante Saboroso!',
             background: 'images/img_bg_3.jpg',
             h1: 'Diga um oi!',
-            isHome: false
+            isHome: false,
+            body: req.body
         });
     },
 
