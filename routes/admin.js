@@ -2,9 +2,22 @@ var express = require("express");
 var users = require("./../inc/users");
 var router = express.Router();
 
-router.get("/", function(req, res, next) {
-    res.render("admin/index")
+router.use(function(req, res, next){
+    if (['/login'].indexOf(req.url) === -1 && !req.session.user) {
+        res.redirect("/admin/login");
+    } else {
+        next();
+    }
 })
+
+router.get("/", function(req, res, next) {
+    res.render("admin/index");
+})
+
+router.get("/logout", function(req, res, next) {
+    delete req.session.user;
+    res.redirect("/admin/login")
+}) 
 
 router.post("/login", function(req, res, nxt) {
     if(!req.body.email) {
