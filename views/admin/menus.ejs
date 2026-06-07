@@ -39,7 +39,7 @@
                 <% data.forEach(function(row){ %>
                 <tr data-row="<%= JSON.stringify(row); %>">
                   <td><%= row.id %></td>
-                  <td><img src="/<% row.photo %>" alt="" style="height: 18px;"></td>
+                  <td><img src="/<%= row.photo %>" alt="" style="height: 18px;"></td>
                   <td><%= row.title %></td>
                   <td><%= row.description %></td>
                   <td><%= row.price %></td>
@@ -141,8 +141,11 @@
     </div>
 
   <%- include("inc/footer") -%>
-
+  <script src="/js/hcode-filereader.js"></script>
   <script> 
+  new HcodeFileReader("#modal-create form [type=file]", "#modal-create img");
+  new HcodeFileReader("#modal-update form [type=file]", "#modal-update img");
+
   let formCreate = document.querySelector("#modal-create form");
   let formCreateData = new FormData(formCreate);
 
@@ -159,28 +162,26 @@
     });
   })
 
-  let formUpdate = document.querySelector("#modal-update form")
+  let formUpdate = document.querySelector("#modal-update form");
 
   [...document.querySelectorAll('.btn-update')].forEach(btn => {
-    btn.addEventListener('click', e=> {
-      let tr = e.path.find(el => {
-        return (el.tagName.toupperCase() === 'TR')
-      })
-      let data = JSON.parse(tr.dataset.row)
+    btn.addEventListener('click', e => {
+      let tr = e.target.closest('tr');
+      
+      let data = JSON.parse(tr.dataset.row);
 
-      for(let name in data) {
-        switch(name) {
+      for (let name in data) {
+        switch (name) {
           case 'photo':
+            formUpdate.querySelector("img").src = '/'+data[name];
             break;
-
           default:
-            let input = formUpdate.querySelector(`[name=${name}]`).value = data[name];
+            let input = formUpdate.querySelector(`[name=${name}]`);
             if (input) input.value = data[name];
         }
       }
-
-      $('#modal-update').modal('show')
-    })
-  })
+      $('#modal-update').modal('show');
+    });
+  });
 
   </script>
