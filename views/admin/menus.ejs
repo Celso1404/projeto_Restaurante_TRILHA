@@ -148,18 +148,18 @@
   new HcodeFileReader("#modal-update form [type=file]", "#modal-update img");
 
   let formCreate = document.querySelector("#modal-create form");
-  formCreate.save().then(json => {
-    window.location.reload();
-  }).catch(err => {
-    console.error(err);
-  });
+    formCreate.save().then(json => {
+      window.location.reload();
+    }).catch(err => {
+      console.error(err);
+    });
 
   let formUpdate = document.querySelector("#modal-update form");
-  formUpdate.save().then(json => {
-    window.location.reload();
-  }).catch(err => {
-    console.error(err); 
-  });
+    formUpdate.save().then(json => {
+      window.location.reload();
+    }).catch(err => {
+      console.error(err); 
+    });
 
   [...document.querySelectorAll('.btn-update')].forEach(btn => {
     btn.addEventListener('click', e => {

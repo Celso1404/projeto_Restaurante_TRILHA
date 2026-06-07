@@ -6,17 +6,18 @@ module.exports = {
         return new Promise((resolve, reject) => {
             conn.query(`
                 SELECT * FROM tb_menus ORDER BY title
-                `, (err, results)=> {
-                  if (err) {
+            `, (err, results)=> {
+                if (err) {
                     reject(err);
-                  }
-                 resolve(results);
-                });
+                }
+                resolve(results);
+            });
         });
     },
 
     save(fields, files) {
         return new Promise((resolve, reject)=> {
+            
             if (files && files.photo && files.photo.size > 0) {
                 fields.photo = `images/${path.parse(files.photo.path).base}`;
             } else {
@@ -26,8 +27,6 @@ module.exports = {
             let query, queryParams;
 
             if (parseInt(fields.id) > 0) {
-                // É UMA EDIÇÃO!
-                
                 if (fields.photo) {
                     query = `
                         UPDATE tb_menus 
@@ -71,6 +70,7 @@ module.exports = {
                     fields.photo
                 ];
             }
+
             conn.query(query, queryParams, (err, results)=> {
                 if(err) {
                     reject(err);
