@@ -1,10 +1,17 @@
 class HcodeGrid {
     constructor(configs) {
-        this.options = Object.assign({}, {formCreate:'#modal-create form',
-                                          formUpdate:'#modal-update form',
-                                          btnUpdate:'.btn-update',
-                                          btnDelete:'.btn-delete',
-                                         }, configs);
+        configs.listeners = Object.assign({
+            afterUpdateClick: (e)=> {
+                $('#modal-update').modal('show');
+            }
+        }, configs.listeners);  
+        this.options = Object.assign({}, {
+            formCreate: '#modal-create form',
+            formUpdate: '#modal-update form',
+            btnUpdate:  '.btn-update',
+            btnDelete:  '.btn-delete'
+        }, configs);
+
         this.initForms();
         this.initButtons();                                 
     }
@@ -25,10 +32,15 @@ class HcodeGrid {
         });
     }
 
+    fireEvent(name, args) {
+        if(typeof this.options.listeners[name] === 'function') this.options.listeners[name].apply(this, args);
+    }
+
     initButtons() {
 
         [...document.querySelectorAll(this.options.btnUpdate)].forEach(btn => {
         btn.addEventListener('click', e => {
+        this.fireEvent('beforeUpdateClick', [e]);
         let tr = e.target.closest('tr');
         let data = JSON.parse(tr.dataset.row);
 
@@ -37,12 +49,13 @@ class HcodeGrid {
             switch (name) {
             case 'date': 
                 if (input) input.value = moment(data[name]).format('YYYY-MM-DD');
-                break; // <-- AQUI: o break que faltava!
+                break; 
             default:
                 if (input) input.value = data[name];
             }
         }
-        $('#modal-update').modal('show');
+        
+        this.fireEvent('afterUpdateClick', [e]);
         });
     });
 
