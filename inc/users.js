@@ -3,9 +3,9 @@ var conn = require("./db");
 
 module.exports = {
     render(req, res, error) {
-        res.render("admin/login", {
-            body: req.body,
-            error
+        res.render('admin/login', {
+            error,
+            body: req.body || {} 
         });
     },
 

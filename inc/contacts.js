@@ -1,13 +1,14 @@
 var conn = require("./db");
 
 module.exports = {
-    render(req, res) {
+    render(req, res, error, success) {
         res.render('contacts', {
             title: 'Contato - Restaurante Saboroso!',
             background: 'images/img_bg_3.jpg',
-            h1: 'Diga um oi!',
-            isHome: false,
-            body: req.body
+            h1: 'Diga um Oi!',
+            body: req.body || {},
+            error,
+            success
         });
     },
 
