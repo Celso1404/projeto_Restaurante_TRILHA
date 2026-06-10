@@ -8,7 +8,8 @@ var emails = require ("./../inc/emails")
 var moment = require("moment");
 var router = express.Router();
 
-moment.locale("pt-BR");
+module.exports = function(io){
+    moment.locale("pt-BR");
 
 router.use(function(req, res, next){
     if (['/login'].indexOf(req.url) === -1 && !req.session.user) {
@@ -31,6 +32,14 @@ router.get("/", function(req, res, next) {
     }).catch(err => {
         
     })
+});
+
+router.get("/dashboard", function(req, res, next){
+    reservations.dashboard().then(data=> {
+        res.json(data); 
+    }).catch(err => {
+        res.status(500).json(err);
+    });
 });
 
 router.get("/logout", function(req, res, next) {
@@ -67,6 +76,7 @@ router.get("/contacts", function(req, res, next) {
 
 router.delete("/contacts/:id", function(req, res, next){
     contacts.delete(req.params.id).then(results=>{
+        io.emit('dashboard update')
         res.send(results);
     }).catch(err=>{
         res.send(err);
@@ -83,6 +93,7 @@ router.get("/emails", function(req, res, next) {
 
 router.delete("/emails/:id", function(req, res, next){ 
     emails.delete(req.params.id).then(results=>{
+        io.emit('dashboard update')
         res.send(results);
     }).catch(err=>{
         res.send(err);
@@ -99,6 +110,7 @@ router.get("/menus", function(req, res, next) {
 
 router.post("/menus", function(req, res, next) {
     menus.save(req.fields, req.files).then(results => {
+        io.emit('dashboard update')
         res.send(results);
     }).catch(err => {
         console.error("ERRO AO SALVAR O MENU:", err); 
@@ -108,6 +120,7 @@ router.post("/menus", function(req, res, next) {
 
 router.delete("/menus/:id", function(req, res, next){
     menus.delete(req.params.id).then(results=>{
+        io.emit('dashboard update')
         res.send(results);
     }).catch(err=>{
         res.send(err)
@@ -142,6 +155,7 @@ router.get("/reservations/chart", function(req, res, next){
 
 router.post("/reservations", function(req, res, next) {
     reservations.save(req.fields, req.files).then(results => {
+        io.emit('dashboard update')
         res.send(results);
     }).catch(err => {
         console.error("ERRO AO SALVAR O MENU:", err); 
@@ -152,6 +166,7 @@ router.post("/reservations", function(req, res, next) {
 router.delete("/reservations/:id", function(req, res, next){
     reservations.delete(req.params.id).then(results=>{
         res.send(results);
+        io.emit('dashboard update')
     }).catch(err=>{
         res.send(err)
     })
@@ -167,6 +182,7 @@ router.get("/users", function(req, res, next) {
 
 router.post("/users", function(req, res, next) {
     users.save(req.fields).then(results=> {
+        io.emit('dashboard update')
         res.send(results);
     }).catch(err=> {
         res.render("admin/users", admin.getParams(req))
@@ -175,6 +191,7 @@ router.post("/users", function(req, res, next) {
 
 router.post("/users/password-change", function(req, res, next){
     users.changePassword(req).then(results=> {
+        io.emit('dashboard update')
         res.send(results);
     }).catch(err=> {
         res.send({
@@ -186,9 +203,11 @@ router.post("/users/password-change", function(req, res, next){
 router.delete("/users/:id", function(req, res, next) {
     users.delete(req.params.id).then(results=> {
         res.send(results);
+        io.emit('dashboard update')
     }).catch(err=> {
         res.send(err);
     })
 })
 
-module.exports = router;
+    return router;
+};

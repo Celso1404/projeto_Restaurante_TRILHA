@@ -6,7 +6,8 @@ var contacts = require('./../inc/contacts');
 var emails = require('./../inc/emails');
 var router = express.Router();
 
-/* GET home page. */
+module.exports = function(io) {
+  /* GET home page. */
 router.get('/', function(req, res, next) {
   menus.getMenus().then(results => {
       res.render('index', { 
@@ -33,6 +34,7 @@ router.post('/contacts', function(req, res, next) {
   } else {
     contacts.save(req.body).then(results=> {
       req.body = {};
+      io.emit('dashboard update');
       contacts.render(req, res, null, "Contato enviado com sucesso!")
     }).catch(err=> {
       contacts.render(req, res, err.message)
@@ -52,7 +54,12 @@ router.get('/menus', function(req, res, next) {
 });
 
 router.get('/reservations', function(req, res, next) {
-  reservations.render(req, res);
+    res.render('reservations', {
+        title: 'Reservas - Restaurante Saboroso',
+        background: 'images/img_bg_2.jpg',
+        h1: 'Reserve uma Mesa!',
+        body: {} 
+    });
 });
 
 router.post('/reservations', function(req, res, next) {
@@ -69,6 +76,7 @@ router.post('/reservations', function(req, res, next) {
   } else {
     reservations.save(req.body).then(results=>{
       req.body = {};
+      io.emit('dashboard update');
       reservations.render(req, res, null, "Reserva realizada!")
     }).catch(err=>{
       reservations.render(req, res, err.message);
@@ -93,4 +101,5 @@ router.post("/subscribe", function(req, res, next) {
     })
 })
 
-module.exports = router;
+  return router;
+}
