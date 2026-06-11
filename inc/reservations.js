@@ -41,7 +41,7 @@ module.exports = {
                     people = ?,
                     date = ?,
                     time = ?,
-                    status = ?  -- <-- NOVO CAMPO AQUI
+                    status = ?  
                 WHERE id = ?    
             `;
 
@@ -50,7 +50,7 @@ module.exports = {
         } else {
             query = `
                 INSERT INTO tb_reservations (name, email, people, date, time, status)
-                VALUES(?, ?, ?, ?, ?, ?) -- <-- UM PONTO DE INTERROGAÇÃO A MAIS
+                VALUES(?, ?, ?, ?, ?, ?) 
             `;
         } 
 

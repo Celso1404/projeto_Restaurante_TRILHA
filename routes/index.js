@@ -83,7 +83,7 @@ module.exports = function(io) {
       reservations.render(req, res, "Digite um horário");
     } else {
       try {
-        let results = await reservations.save(req.body);
+        const results = await reservations.save(req.body);
         req.body = {};
         io.emit('dashboard update');
         reservations.render(req, res, null, "Reserva realizada!");
@@ -104,7 +104,7 @@ module.exports = function(io) {
 
   router.post("/subscribe", async function(req, res, next) {
     try {
-      let results = await emails.save(req);
+      const results = await emails.save(req);
       res.send(results); 
     } catch (err) {
       res.send(err);
