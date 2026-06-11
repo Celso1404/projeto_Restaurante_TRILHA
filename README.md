@@ -1,66 +1,77 @@
-# Projeto Restaurante Saboroso
+# 🍽️ Restaurante Saboroso - Sistema Web & Painel Administrativo
 
-Bem-vindo ao repositório do **Restaurante Saboroso**, uma aplicação web full-stack desenvolvida para gerenciar as operações de um restaurante fictício. Este projeto foi desenvolvido utilizando Node.js e inclui um site público dinâmico e um painel administrativo completo.
+> Um sistema web full-stack completo para gestão de um restaurante, contemplando um site dinâmico voltado para o cliente final e um painel administrativo robusto, reativo e seguro para a gestão do estabelecimento.
 
-## 🚀 Tecnologias Utilizadas
-
-* **Back-end:** Node.js, Express.js
-* **Banco de Dados:** MySQL (via pacote `mysql2`)
-* **Front-end (Site Público):** HTML5, CSS3, JavaScript, EJS (Embedded JavaScript templating), Bootstrap
-* **Front-end (Painel Admin):** AdminLTE (Bootstrap 3), FontAwesome, Ionicons
-
-## 📁 Estrutura do Projeto
-
-O projeto está dividido nas seguintes áreas principais:
-
-### 1. Sistema de Views (Site Público)
-Arquivos `.ejs` responsáveis pela interface que o cliente acessa.
-* `index.ejs`, `menus.ejs`, `reservations.ejs`, `services.ejs`, `contacts.ejs`
-* Componentes reutilizáveis (Includes): Cabeçalhos (`header.ejs`), rodapés (`footer.ejs`), alertas e blocos de conteúdo dinâmico (pratos populares, serviços, formulários de reserva e contato).
-
-### 2. Rotas (`/routes`)
-Controladores da aplicação que gerenciam as requisições HTTP:
-* `index.js`: Gerencia as rotas principais do site (Home, Contatos, Menus, Reservas, Serviços), recebendo dados de formulários (`POST`) e renderizando as páginas (`GET`).
-* `users.js`: Rota base para gerenciamento de usuários do sistema.
-
-### 3. Modelos e Banco de Dados (`/inc`)
-Scripts que interagem diretamente com o banco de dados MySQL:
-* `db.js`: Configuração e exportação da conexão com o banco de dados `saboroso`.
-* `menus.js`: Funções para resgatar os pratos do banco.
-* `reservations.js`: Funções para renderizar a página de reservas e salvar novos agendamentos na tabela `tb_reservations`.
-* `contacts.js`: Funções para salvar as mensagens recebidas via formulário na tabela `tb_contacts`.
-
-### 4. Painel Administrativo (`/public/admin`)
-Interface restrita para gerenciamento do restaurante, baseada no template AdminLTE.
-* `index.html`: Tela inicial com dashboard e métricas.
-* `menus.html`: Gerenciamento do cardápio (CRUD de pratos).
-* `reservations.html`: Gestão de reservas de mesas com filtros por data.
-* `contacts.html` e `emails.html`: Visualização de mensagens e leads de newsletter.
-* `users.html`: Controle de acesso e permissões de usuários administradores.
-* `login.html`: Tela de autenticação do sistema.
-
-## ⚙️ Funcionalidades
-
-* **Cardápio Dinâmico:** Os pratos são puxados diretamente do banco de dados e exibidos no site.
-* **Reservas de Mesas:** Sistema integrado onde clientes enviam pedidos de reserva que caem diretamente no painel de administração.
-* **Fale Conosco:** Formulário de contato validado e conectado ao banco de dados.
-* **Painel Admin Completo:** Gestão total do conteúdo (adicionar/editar pratos, aprovar reservas, ler mensagens, cadastrar usuários).
-
-## 🛠️ Como Executar o Projeto
-
-1. Clone o repositório.
-2. Certifique-se de ter o Node.js e o MySQL instalados na sua máquina.
-3. Instale as dependências executando:
-   ```bash
-   npm install
-   ```
-4. Crie um banco de dados MySQL chamado `saboroso` e importe o schema/tabelas necessárias (`tb_menus`, `tb_reservations`, `tb_contacts`, `tb_users`).
-5. Configure as credenciais do banco de dados no arquivo `/inc/db.js` (usuário e senha).
-6. Inicie a aplicação:
-   ```bash
-   npm start
-   ```
-7. Acesse o site em `http://localhost:3000` (ou a porta configurada no seu arquivo principal).
+Este projeto foi desenvolvido com foco nas melhores práticas de desenvolvimento de software. O backend foi construído com **Node.js**, **Express**, e **MySQL**, utilizando uma arquitetura moderna baseada em `Promises` e `async/await`. O frontend administrativo conta com um layout elegante construído sobre o **AdminLTE** e **Bootstrap 3**, utilizando componentes em **JavaScript Vanilla Orientado a Objetos** para requisições assíncronas (AJAX), manipulação de DOM e atualizações em tempo real com **Socket.io**.
 
 ---
-*Desenvolvido como parte do curso prático de JavaScript.*
+
+## ✨ Principais Funcionalidades
+
+### 🌐 Site Público (Front-end)
+* **Cardápio Dinâmico:** Exibição de pratos com sistema de destaques embaralhados aleatoriamente na página inicial.
+* **Reservas Inteligentes:** Formulário de reservas de mesas integrado no banco de dados.
+* **Fale Conosco & Newsletter:** Sistema de envio de mensagens de contato e captura de e-mails para campanhas de marketing.
+
+### 🔒 Painel Administrativo (Back-end)
+* **Dashboard em Tempo Real:** Visão geral com contadores atualizados instantaneamente (via `Socket.io`) e gráficos analíticos de reservas.
+* **Gestão de Reservas:** Sistema de aprovação e edição com controle de status dinâmico (Pendente, Confirmada, Cancelada, Finalizada) e paginação inteligente processada direto no banco de dados (`SQL_CALC_FOUND_ROWS`).
+* **Gestão de Cardápio:** Upload de imagens com preview instantâneo (via `FileReader` API) utilizando o `formidable` para processamento no backend, além de controle completo do menu.
+* **Gestão de Contatos e E-mails:** Visualização e exclusão de mensagens recebidas e e-mails de newsletter.
+* **Segurança e Autenticação Avançadas:**
+  * Login seguro com controle de sessões otimizado via **Redis**.
+  * Senhas fortemente criptografadas no banco de dados utilizando **bcrypt**.
+  * Arquitetura inteligente de *fallback* para migração transparente e segura de senhas legadas (texto puro para hash).
+  * Proteção de credenciais, portas e chaves da aplicação utilizando variáveis de ambiente (`.env`).
+* **Componentes JS Reutilizáveis (POO):** Criação de classes próprias (`HcodeGrid`, `HcodeFileReader`) e protótipos de formulário (`HTMLFormElement.prototype.save`) para padronizar o comportamento assíncrono (AJAX) com a `Fetch API` em todas as telas do painel.
+
+---
+
+## 🚀 Tecnologias e Versões Utilizadas
+
+**Back-end:**
+* **Express.js:** `^4.15.2`
+* **MySQL2:** `^3.22.4` (Com suporte nativo a Promises)
+* **Sessões de Alta Performance:** `redis (^3.1.2)` e `connect-redis (^6.1.3)`
+* **Segurança:** `bcrypt (^6.0.0)` e `dotenv (^17.4.2)`
+* **Real-time:** `socket.io (^4.8.3)`
+* **Manipulação de Datas:** `moment (^2.30.1)`
+* **Upload de Arquivos:** `formidable (^3.5.4)`
+* **Middlewares e Utilitários:** `express-session (^1.19.0)`, `body-parser (^2.2.2)`, `cookie-parser (~1.4.4)`, `morgan (~1.9.1)`
+
+**Front-end:**
+* **JavaScript Vanilla:** ES6+ Classes, Fetch API
+* **Template Engine:** `EJS (~2.6.1)` (Uso avançado de partials para componentização)
+* **Framework CSS:** AdminLTE & Bootstrap 3
+
+---
+
+## ⚙️ Variáveis de Ambiente (.env)
+
+Para rodar este projeto com segurança, você precisará criar um arquivo chamado `.env` na raiz do repositório contendo as seguintes configurações:
+
+```env
+# Configurações do Banco de Dados
+MYSQL_HOST=localhost
+MYSQL_USER=root
+MYSQL_PASSWORD=sua_senha_secreta
+MYSQL_DATABASE=saboroso
+
+# Configurações da Aplicação
+SESSION_SECRET=chave_super_secreta_para_sessoes
+PORT=3000
+
+#COMO RODAR O PROJETO
+
+git clone [https://github.com/seu-usuario/restaurante-saboroso.git](https://github.com/seu-usuario/restaurante-saboroso.git)
+
+2 - Acessar a pasta do projeto e rodar as dependências
+
+npm install
+
+3 - Acesse as aplicações no seu navegador:
+
+Site Público: http://localhost:3000
+
+Painel Admin: http://localhost:3000/admin (Faça o login inicial com o usuário padrão e altere a senha imediatamente para gerar o Hash de segurança).
+
