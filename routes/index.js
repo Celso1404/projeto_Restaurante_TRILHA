@@ -11,9 +11,11 @@ module.exports = function(io) {
   router.get('/', async function(req, res, next) {
     try {
       let results = await menus.getMenus();
+      let menusDestaque = results.sort(() => 0.5 - Math.random()).slice(0, 3);
+
       res.render('index', { 
         title: 'Restaurante Saboroso!',
-        menus: results,
+        menus: menusDestaque, 
         isHome: true,
         background: 'images/img_bg_1.jpg'
       });

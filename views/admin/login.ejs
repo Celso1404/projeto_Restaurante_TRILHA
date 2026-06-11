@@ -34,8 +34,8 @@
           <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
         </div>
         <div class="form-group has-feedback">
-          <input name="password" type="password" class="form-control" placeholder="Senha">
-          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+          <input id="inputPassword" name="password" type="password" class="form-control" placeholder="Senha">
+          <span id="togglePassword" class="glyphicon glyphicon-eye-open form-control-feedback" style="cursor: pointer; pointer-events: auto;"></span>
         </div>
         <div class="row">
           <!-- /.col -->
@@ -55,6 +55,16 @@
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script>
+    document.getElementById('togglePassword').addEventListener('click', function (e) {
+      const passwordInput = document.getElementById('inputPassword');
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+
+      passwordInput.setAttribute('type', type);
+      this.classList.toggle('glyphicon-eye-open');
+      this.classList.toggle('glyphicon-eye-close');
+    });
+  </script>
 </body>
 
 </html>
