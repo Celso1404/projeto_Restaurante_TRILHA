@@ -21,13 +21,16 @@ module.exports = {
             fields.date = `${date[2]}-${date[1]}-${date[0]}`;
         }
 
+        let status = fields.status || 'Pendente';
+
         let query, params = [
             fields.name,
             fields.email,
             fields.people,
             fields.date,
             fields.time,
-        ]
+            status 
+        ];
 
         if(parseInt(fields.id) > 0) {
             query = `
@@ -37,7 +40,8 @@ module.exports = {
                     email = ?,
                     people = ?,
                     date = ?,
-                    time = ?
+                    time = ?,
+                    status = ?  -- <-- NOVO CAMPO AQUI
                 WHERE id = ?    
             `;
 
@@ -45,9 +49,9 @@ module.exports = {
 
         } else {
             query = `
-                INSERT INTO tb_reservations (name, email, people, date, time)
-                VALUES(?, ?, ?, ?, ?)
-            `
+                INSERT INTO tb_reservations (name, email, people, date, time, status)
+                VALUES(?, ?, ?, ?, ?, ?) -- <-- UM PONTO DE INTERROGAÇÃO A MAIS
+            `;
         } 
 
          conn.query(query, params, (err, results) => {
